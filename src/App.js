@@ -8,9 +8,85 @@ export default function App() {
   const [species, setSpecies] = useState("") //выбранный вид
   const [loading, setLoading] = useState(false) //состояние загрузки (true/false)
   const [error, setError] = useState(null) //текст ошибки
+  const [page, setPage] = useState(1) //текущая страница
 
   const handleSearch = () => {
     let url = "https://rickandmortyapi.com/api/character";
+
+    const params = [];
+    if (name) params.push("name=" + name);
+    if (species) params.push("species=" + species);
+
+    if (params.length > 0) {
+      url += "?" + params.join("&");
+    }
+
+    fetchCharacters(url)
+     
+  }
+
+    const handleSearch2 = () => {
+    let url = "https://rickandmortyapi.com/api/character?page=2";
+
+    const params = [];
+    if (name) params.push("name=" + name);
+    if (species) params.push("species=" + species);
+
+    if (params.length > 0) {
+      url += "?" + params.join("&");
+    }
+
+    fetchCharacters(url)
+     
+  }
+
+     const handleSearch3 = () => {
+    let url = "https://rickandmortyapi.com/api/character?page=3";
+
+    const params = [];
+    if (name) params.push("name=" + name);
+    if (species) params.push("species=" + species);
+
+    if (params.length > 0) {
+      url += "?" + params.join("&");
+    }
+
+    fetchCharacters(url)
+     
+  }
+
+     const handleSearch4 = () => {
+    let url = "https://rickandmortyapi.com/api/character?page=4";
+
+    const params = [];
+    if (name) params.push("name=" + name);
+    if (species) params.push("species=" + species);
+
+    if (params.length > 0) {
+      url += "?" + params.join("&");
+    }
+
+    fetchCharacters(url)
+     
+  }
+
+     const handleSearch5 = () => {
+    let url = "https://rickandmortyapi.com/api/character?page=5";
+
+    const params = [];
+    if (name) params.push("name=" + name);
+    if (species) params.push("species=" + species);
+
+    if (params.length > 0) {
+      url += "?" + params.join("&");
+    }
+
+    fetchCharacters(url)
+     
+  }
+
+     const handleSearch6 = () => {
+    let url = "https://rickandmortyapi.com/api/character?page=6";
 
     const params = [];
     if (name) params.push("name=" + name);
@@ -76,6 +152,18 @@ const fetchCharacters = async (url) => {
           <CharacterCard key={ch.id} character={ch} />
         ))}
       </div>
+
+      <div className="pagination ">
+        <div className="page-numbers">
+          <button className="page-num" onClick={handleSearch}>1</button>
+          <button className="page-num" onClick={handleSearch2}>2</button>
+          <button className="page-num" onClick={handleSearch3}>3</button>
+          <button className="page-num" onClick={handleSearch4}>4</button>
+          <button className="page-num" onClick={handleSearch5}>5</button>
+          <button className="page-num" onClick={handleSearch6}>6</button>
+        </div>
+      </div>
+      
     </div>
   );
 }
