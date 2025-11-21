@@ -1,169 +1,115 @@
-import { useState } from "react"; 
-import CharacterCard from "./components/CharacterCard";
-import "./App.css";
+import { useState, useEffect } from "react"
+import CharacterCard from "./components/CharacterCard"
+import "./App.css"
 
 export default function App() {
-  const [characters, setCharacters] = useState([]) //список персонажей
-  const [name, setName] = useState("") //строка поиска
-  const [species, setSpecies] = useState("") //выбранный вид
-  const [loading, setLoading] = useState(false) //состояние загрузки (true/false)
-  const [error, setError] = useState(null) //текст ошибки
-  const [page, setPage] = useState(1) //текущая страница
+  const [characters, setCharacters] = useState([])
+  const [name, setName] = useState("")
+  const [species, setSpecies] = useState("")
+  const [charStatus, setCharStatus] = useState("") // переименовали
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
-  const handleSearch = () => {
-    let url = "https://rickandmortyapi.com/api/character";
+  // функция для поиска + фильтров + страницы
+  const handleSearch = (pageNumber = 1) => {
+    let url = `https://rickandmortyapi.com/api/character?page=${pageNumber}`
 
-    const params = [];
-    if (name) params.push("name=" + name);
-    if (species) params.push("species=" + species);
+    const params = []
+    if (name) params.push(`name=${name}`)
+    if (species) params.push(`species=${species}`)
+    if (charStatus) params.push(`status=${charStatus}`)
 
     if (params.length > 0) {
-      url += "?" + params.join("&");
+      url += "&" + params.join("&")
     }
 
     fetchCharacters(url)
-     
   }
 
-    const handleSearch2 = () => {
-    let url = "https://rickandmortyapi.com/api/character?page=2";
+  const fetchCharacters = async (url) => {
+    try {
+      setLoading(true)
+      setError(null)
 
-    const params = [];
-    if (name) params.push("name=" + name);
-    if (species) params.push("species=" + species);
-
-    if (params.length > 0) {
-      url += "?" + params.join("&");
-    }
-
-    fetchCharacters(url)
-     
-  }
-
-     const handleSearch3 = () => {
-    let url = "https://rickandmortyapi.com/api/character?page=3";
-
-    const params = [];
-    if (name) params.push("name=" + name);
-    if (species) params.push("species=" + species);
-
-    if (params.length > 0) {
-      url += "?" + params.join("&");
-    }
-
-    fetchCharacters(url)
-     
-  }
-
-     const handleSearch4 = () => {
-    let url = "https://rickandmortyapi.com/api/character?page=4";
-
-    const params = [];
-    if (name) params.push("name=" + name);
-    if (species) params.push("species=" + species);
-
-    if (params.length > 0) {
-      url += "?" + params.join("&");
-    }
-
-    fetchCharacters(url)
-     
-  }
-
-     const handleSearch5 = () => {
-    let url = "https://rickandmortyapi.com/api/character?page=5";
-
-    const params = [];
-    if (name) params.push("name=" + name);
-    if (species) params.push("species=" + species);
-
-    if (params.length > 0) {
-      url += "?" + params.join("&");
-    }
-
-    fetchCharacters(url)
-     
-  }
-
-     const handleSearch6 = () => {
-    let url = "https://rickandmortyapi.com/api/character?page=6";
-
-    const params = [];
-    if (name) params.push("name=" + name);
-    if (species) params.push("species=" + species);
-
-    if (params.length > 0) {
-      url += "?" + params.join("&");
-    }
-
-    fetchCharacters(url)
-     
-  }
-
-const fetchCharacters = async (url) => {
- try {
-    setLoading(true);
-    setError(null);
-
-    const res = await fetch(url);
-    if (!res.ok) {
-      if (res.status === 404) {
-        setCharacters([]);
-        setError("Персонажи не найдены");
-        return;
+      const res = await fetch(url)
+      if (!res.ok) {
+        if (res.status === 404) {
+          setCharacters([])
+          setError("Персонажи не найдены")
+          return
+        }
+        throw new Error("Ошибка при загрузке данных")
       }
-      throw new Error("Ошибка при загрузке данных");
+
+      const data = await res.json()
+      setCharacters(data.results || [])
+      setTotalPages(data.info.pages)
+    } catch (err) {
+      setError("Ошибка при загрузке данных")
+    } finally {
+      setLoading(false)
     }
-    const data = await res.json();
-    setCharacters(data.results || []);
- } catch (err) {
-    setError("Ошибка при загрузке данных");
- } finally {
-    setLoading(false);
- }
-}
+  }
 
+  // обновляем данные при смене страницы
+  useEffect(() => {
+    handleSearch(page)
+  }, [page])
 
- return (
+  return (
     <div className="container">
       <h1>Rick and Morty Characters</h1>
+
       <div className="controls">
         <input
-            type="text"
-        placeholder="Введите имя персонажа"
-        value={name}
-        onChange={e => setName(e.target.value)}
+          type="text"
+          placeholder="Введите имя персонажа"
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
+
         <select value={species} onChange={e => setSpecies(e.target.value)}>
-            <option value=''>Все виды</option>
-            <option value='Human'>Человек</option>
-            <option value='Alien'>Инопланетянин</option>
-            <option value='Robot'>Робот</option>
-            <option value='unknown'>Зомби</option>
+          <option value="">Все виды</option>
+          <option value="Human">Человек</option>
+          <option value="Alien">Инопланетянин</option>
+          <option value="Robot">Робот</option>
+          <option value="unknown">Неизвестный</option>
         </select>
-        <button onClick={handleSearch}>Поиск</button>
+
+        <select value={charStatus} onChange={e => setCharStatus(e.target.value)}>
+          <option value="">Все статусы</option>
+          <option value="alive">Живой</option>
+          <option value="dead">Мёртвый</option>
+          <option value="unknown">Неизвестный</option>
+        </select>
+
+        <button onClick={() => { setPage(1); handleSearch(1) }}>Поиск</button>
       </div>
 
-       {loading && <p className="loading">Загрузка...</p>}
-          {error && <p className="error">{error}</p>}
+      {loading && <p className="loading">Загрузка...</p>}
+      {error && <p className="error">{error}</p>}
 
-           <div className="card-grid">
-        {characters.map((ch) => (
+      <div className="card-grid">
+        {characters.map(ch => (
           <CharacterCard key={ch.id} character={ch} />
         ))}
       </div>
 
-      <div className="pagination ">
+      <div className="pagination">
         <div className="page-numbers">
-          <button className="page-num" onClick={handleSearch}>1</button>
-          <button className="page-num" onClick={handleSearch2}>2</button>
-          <button className="page-num" onClick={handleSearch3}>3</button>
-          <button className="page-num" onClick={handleSearch4}>4</button>
-          <button className="page-num" onClick={handleSearch5}>5</button>
-          <button className="page-num" onClick={handleSearch6}>6</button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+            <button
+              key={num}
+              className={page === num ? "page-num active" : "page-num"}
+              onClick={() => setPage(num)}
+            >
+              {num}
+            </button>
+          ))}
         </div>
       </div>
-      
     </div>
-  );
+  )
 }
