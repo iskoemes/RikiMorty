@@ -5,7 +5,7 @@ export default function CharacterCard({ character }) {
     ep.replace("https://rickandmortyapi.com/api/episode/", "")
   );
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const statusColor = {
     Alive: "green",
@@ -15,7 +15,13 @@ export default function CharacterCard({ character }) {
 
   const navigateToCharacter = (postId) => {
     navigate(`/posts/${postId}`);
-  }
+  };
+
+  // Показываем только первые 6 серий, если их больше
+  const displayedEpisodes =
+    episodes.length > 6
+      ? episodes.slice(0, 6).join(", ") + "..."
+      : episodes.join(", ");
 
   return (
     <div className="card" onClick={() => navigateToCharacter(character.id)}>
@@ -30,8 +36,7 @@ export default function CharacterCard({ character }) {
       </p>
 
       <p>
-        <strong>Серии:</strong> {episodes.join(", ")}
+        <strong>Серии:</strong> {displayedEpisodes}
       </p>
     </div>
-  );
-}
+  )}

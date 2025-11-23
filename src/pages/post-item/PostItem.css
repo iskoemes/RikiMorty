@@ -1,0 +1,177 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(120deg, #232526 0%, #485563 100%);
+  overflow-x: hidden;
+}
+
+.post-item {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  position: relative;
+}
+
+.post-card {
+  background: rgba(34, 36, 40, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 28px;
+  box-shadow: 0 12px 48px 0 rgba(0,0,0,0.35);
+  padding: 48px 36px 32px 36px;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  animation: fadeIn 0.7s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.back-btn {
+ position: absolute;
+  left: 32px;
+  top: 32px;
+  transform: none;
+  background: linear-gradient(90deg, #61dafb 60%, #21a1f3 100%);
+  color: #222;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(97,218,251,0.15);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  z-index: 2;
+}
+.back-btn:hover {
+  background: linear-gradient(90deg, #21a1f3 60%, #61dafb 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(97,218,251,0.25);
+}
+
+.post-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 22px;
+  border: 6px solid #61dafb;
+  box-shadow: 0 4px 24px rgba(97,218,251,0.18);
+  background: #232526;
+}
+
+.post-title {
+  font-size: 2.5rem;
+  margin-bottom: 18px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: #61dafb;
+  text-shadow: 0 2px 8px #232526;
+}
+
+.post-details p {
+  font-size: 1.15rem;
+  margin: 9px 0;
+  color: #e0e0e0;
+}
+
+.episodes-block {
+  margin-top: 32px;
+  background: rgba(44, 54, 63, 0.85);
+  border-radius: 16px;
+  padding: 18px 14px 12px 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+
+.episodes-block h3 {
+  margin-bottom: 12px;
+  font-size: 1.18rem;
+  color: #61dafb;
+  letter-spacing: 0.7px;
+}
+
+.episodes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.episodes-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid #333;
+  font-size: 1.05rem;
+  color: #fff;
+  transition: background 0.15s;
+}
+.episodes-list li:last-child {
+  border-bottom: none;
+}
+.episodes-list li:hover {
+  background: rgba(97,218,251,0.07);
+}
+.ep-name {
+  color: #fff;
+  font-weight: 500;
+}
+.ep-date {
+  color: #61dafb;
+  font-size: 0.97em;
+  margin-left: 12px;
+}
+
+/* --- Мобильная версия --- */
+@media (max-width: 600px) {
+  .post-card {
+    padding: 24px 8px 18px 8px;
+    max-width: 98vw;
+    border-radius: 16px;
+  }
+  .post-image {
+    width: 120px;
+    height: 120px;
+    border-width: 4px;
+    margin-bottom: 14px;
+  }
+  .post-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .back-btn {
+     left: 10px;
+    top: 10px;
+    padding: 8px 14px;
+    font-size: 1rem;
+    transform: none;
+  }
+  .episodes-block {
+    margin-top: 18px;
+    padding: 10px 4px 6px 4px;
+    border-radius: 10px;
+  }
+  .episodes-block h3 {
+    font-size: 1rem;
+    margin-bottom: 7px;
+  }
+  .episodes-list li {
+    font-size: 0.95rem;
+    padding: 6px 0;
+  }
+}
