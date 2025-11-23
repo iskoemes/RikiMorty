@@ -265,27 +265,28 @@ h1 {
     gap: 7px;
   }
   .card-grid {
-    gap: 14px;
+    gap: 8px;
+    grid-template-columns: repeat(3, 1fr); /* 3 карточки в ряд */
   }
   .card {
-    padding: 10px 4px 10px 4px;
-    border-radius: 12px;
+    padding: 8px 2px 8px 2px;
+    border-radius: 10px;
   }
   .card img {
-    border-radius: 8px;
+    border-radius: 6px;
   }
   .pagination {
-    margin: 18px 0;
+    margin: 14px 0;
   }
   .page-numbers {
-    gap: 4px;
+    gap: 2px;
     max-width: 99vw;
-    padding-bottom: 4px;
+    padding-bottom: 2px;
   }
   .page-num {
-    min-width: 30px;
-    font-size: 0.98rem;
-    padding: 6px 0;
-    border-radius: 5px;
+    min-width: 26px;
+    font-size: 0.92rem;
+    padding: 5px 0;
+    border-radius: 4px;
   }
 }
