@@ -6,7 +6,7 @@ export default function App() {
   const [characters, setCharacters] = useState([])
   const [name, setName] = useState("")
   const [species, setSpecies] = useState("")
-  const [charStatus, setCharStatus] = useState("") // переименовали
+  const [charStatus, setCharStatus] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1)
@@ -56,7 +56,21 @@ export default function App() {
   // обновляем данные при смене страницы
   useEffect(() => {
     handleSearch(page)
+    // eslint-disable-next-line
   }, [page])
+
+  // --- Пагинация с ограничением количества кнопок ---
+  const maxVisible = 7
+  let start = Math.max(1, page - Math.floor(maxVisible / 2))
+  let end = start + maxVisible - 1
+  if (end > totalPages) {
+    end = totalPages
+    start = Math.max(1, end - maxVisible + 1)
+  }
+  const pageNumbers = []
+  for (let i = start; i <= end; i++) {
+    pageNumbers.push(i)
+  }
 
   return (
     <div className="container">
@@ -99,7 +113,16 @@ export default function App() {
 
       <div className="pagination">
         <div className="page-numbers">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+          {start > 1 && (
+            <button
+              className="page-num"
+              onClick={() => setPage(page - 1)}
+              aria-label="Назад"
+            >
+              &#8592;
+            </button>
+          )}
+          {pageNumbers.map(num => (
             <button
               key={num}
               className={page === num ? "page-num active" : "page-num"}
@@ -108,6 +131,15 @@ export default function App() {
               {num}
             </button>
           ))}
+          {end < totalPages && (
+            <button
+              className="page-num"
+              onClick={() => setPage(page + 1)}
+              aria-label="Вперёд"
+            >
+              &#8594;
+            </button>
+          )}
         </div>
       </div>
     </div>
